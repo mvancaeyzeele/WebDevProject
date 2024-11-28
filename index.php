@@ -11,6 +11,8 @@ require('connect.php');
 $query = "SELECT * FROM townpost ORDER BY townpostid ASC LIMIT 5";
 $statement = $db->prepare($query);
 $statement->execute();
+// Stop errors from displaying
+ini_set('display_errors', 0); 
 
 ?>
 <!DOCTYPE html>
@@ -25,16 +27,14 @@ $statement->execute();
 <body>
     <h1>Pelican Town Bulletin Board</h1>
     <a href="index.php">Home</a>
-    <a href=
     <a href="post.php">New Posting</a>
     
     <p>Welcome to the online Pelican Town Bulletin Board system. </p>
     <?php while($row = $statement->fetch()):?>
             <ul>
-            <li><a href="select.php?id=<?php echo $row['townpostid']?>"><?= $row['title']?></a></li>
+            <li><a href="select.php?id=<?php echo $row['townpostid']; ?>"><?= $row['title']; ?></a></li>
             <li><?= $row['description'], $row['townpostid']?></li>
-            <li>
-                <a href="edit.php?id=<?php echo $row['townpostid']; ?>"> edit</a>
+            <li><a href="edit.php?id=<?php echo $row['townpostid']; ?>"> edit</a></li>
             </ul>
         <?php endwhile ?>
 </body>

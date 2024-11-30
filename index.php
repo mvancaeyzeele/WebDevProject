@@ -2,11 +2,11 @@
 /*******w******** 
     
     Name: Morgan VanCaeyzeele
-    Date: November 24th, 2024
+    Date: November 30th, 2024
     Description: Final Project index page
 
 ****************/
-
+include("header.php");
 require('connect.php');
 $query = "SELECT * FROM townpost ORDER BY townpostid ASC LIMIT 5";
 $statement = $db->prepare($query);
@@ -25,10 +25,6 @@ ini_set('display_errors', 0);
     <title>Pelican Town Bulletin Board</title>
 </head>
 <body>
-    <h1>Pelican Town Bulletin Board</h1>
-    <a href="index.php">Home</a>
-    <a href="post.php">New Posting</a>
-    
     <p>Welcome to the online Pelican Town Bulletin Board system. </p>
     <?php while($row = $statement->fetch()):?>
             <ul>

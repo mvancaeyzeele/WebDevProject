@@ -8,7 +8,13 @@
 ****************/
 include("header.php");
 require('connect.php');
-$query = "SELECT * FROM townpost ORDER BY townpostid ASC LIMIT 5";
+
+$townPostId = filter_input(INPUT_GET, 'townPostId', FILTER_SANITIZE_NUMBER_INT);
+$query = "SELECT townPost.*, person.name 
+        FROM townPost
+        INNER JOIN person ON townPost.personId = person.personId
+        ORDER BY townPost.datePosted DESC
+        LIMIT 5";
 $statement = $db->prepare($query);
 $statement->execute();
 // Stop errors from displaying
@@ -28,9 +34,10 @@ ini_set('display_errors', 0);
     <p>Welcome to the online Pelican Town Bulletin Board system. </p>
     <?php while($row = $statement->fetch()):?>
             <ul>
-            <li><a href="select.php?id=<?php echo $row['townpostid']; ?>"><?= $row['title']; ?></a></li>
-            <li><?= $row['description'], $row['townpostid']?></li>
-            <li><a href="edit.php?id=<?php echo $row['townpostid']; ?>"> edit</a></li>
+            <li><a href="select.php?townPostId=<?php echo $row['townPostId']; ?>"><?= $row['title']; ?></a></li>
+            <li><?= $row['description']?></li>
+            <li><?= $row['name']?></li>
+            <li><a href="edit.php?townPostId=<?php echo $row['townPostId']; ?>"> edit</a></li>
             </ul>
         <?php endwhile ?>
 </body>

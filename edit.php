@@ -42,7 +42,7 @@ if($_POST){
     $statement->bindValue(':townPostId', $townPostId, type: PDO::PARAM_INT);
 
     if($statement->execute()){
-        header(header: "Location: index.php?townPostId=$townPostId");
+        header(header: "Location: admin.php?townPostId=$townPostId");
         exit();
     }
 }

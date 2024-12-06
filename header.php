@@ -8,8 +8,19 @@
 ****************/
 
 ?>
-
-
-<h1>Pelican Town Bulletin Board</h1>
-    <a href="index.php">Home</a>
-    <a href="post.php">New Posting</a>
+<div id="outer">
+    <div id="header">
+        <div id="headercontent">
+            <h1>Pelican Town Bulletin Board</h1>
+        </div>
+        <div id="headeradmin">
+            <a href="admin.php">admin</a>
+        </div>
+    </div>
+    <div id="menu">
+        <li>
+        <a href="index.php">Home</a>
+        
+        </li>
+    </div>
+</div>

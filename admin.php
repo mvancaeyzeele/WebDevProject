@@ -2,12 +2,13 @@
 /*******w******** 
     
     Name: Morgan VanCaeyzeele
-    Date: November 30th, 2024
-    Description: Final Project index page
+    Date: December 6th, 2024
+    Description: Admin main page
 
 ****************/
-include("header.php");
+require('authenticate.php');
 require('connect.php');
+include("header.php");
 
 $townPostId = filter_input(INPUT_GET, 'townPostId', FILTER_SANITIZE_NUMBER_INT);
 $query = "SELECT townPost.*, person.name 
@@ -31,13 +32,14 @@ ini_set('display_errors', 0);
     <title>Pelican Town Bulletin Board</title>
 </head>
 <body>
-    <p>Welcome to the online Pelican Town Bulletin Board system. </p>
+    <h2>Page Administration</h2>
+    <a href="post.php">New Posting</a>
     <?php while($row = $statement->fetch()):?>
             <ul>
             <li><a href="select.php?townPostId=<?php echo $row['townPostId']; ?>"><?= $row['title']; ?></a></li>
             <li><?= $row['description']?></li>
             <li><?= $row['name']?></li>
+            <li><a href="edit.php?townPostId=<?php echo $row['townPostId']; ?>"> edit</a></li>
             </ul>
         <?php endwhile ?>
 </body>
-</html>

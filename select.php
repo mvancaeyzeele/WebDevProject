@@ -36,8 +36,6 @@ $row = $statement->fetch();
     <?php endif ?>
     <form method="post" action="index.php">
         <br>
-    <li><a href="edit.php?townPostId=<?php echo $row['townPostId']?>"> Edit</a></li>
-        <br>
         <button type="submit">Back</button>
 
 </body>

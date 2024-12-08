@@ -36,7 +36,7 @@ ini_set('display_errors', 0);
             <ul>
             <li><a href="select.php?townPostId=<?php echo $row['townPostId']; ?>"><?= $row['title']; ?></a></li>
             <li><?= $row['description']?></li>
-            <li><?= $row['name']?></li>
+            <li><?= $row['name']?></li> 
             </ul>
         <?php endwhile ?>
 </body>

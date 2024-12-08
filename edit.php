@@ -2,7 +2,7 @@
 /*******w******** 
     
     Name: Morgan VanCaeyzeele
-    Date: November 30th, 2024
+    Date: December 7th, 2024
     Description: Final Project edit page
 
 ****************/
@@ -10,11 +10,12 @@ include("header.php");
 require('connect.php');
 require('authenticate.php');
 
+session_start();
 
 $townPostId = filter_input(INPUT_GET, 'townPostId', FILTER_SANITIZE_NUMBER_INT);
 $query = "SELECT * FROM townPost WHERE townPostId = :townPostId LIMIT 1";
 $statement = $db->prepare($query);
-$statement->bindValue('townPostId', $townPostId, PDO::PARAM_INT);
+$statement->bindValue(':townPostId', $townPostId, PDO::PARAM_INT);
 $statement->execute();
 $row = $statement->fetch();
 
@@ -23,15 +24,22 @@ $itemIdStatement = $db->prepare ($itemIdQuery);
 $itemIdStatement->execute();
 $items = $itemIdStatement->fetchAll(PDO::FETCH_ASSOC);
 
+// Message displayed if no post found
+if (!$townPostId) {
+    echo "Invalid or missing post ID.";
+    exit;
+}
+
 // Message displayed if no row found
-if (!$row) {
+if(!$row) {
     echo "Post cannot be found.";
     exit;
 }
 
 if($_POST){
-    $title = filter_input(type: INPUT_POST, var_name: 'title', filter: FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $description = filter_input(type: INPUT_POST, var_name: 'description', filter: FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $itemName = filter_input(INPUT_POST, 'itemName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     $query = "UPDATE townPost SET title = :title, description = :description, itemName = :itemName WHERE townPostId = :townPostId";
     $statement = $db->prepare($query);
@@ -56,17 +64,18 @@ if($_POST){
     <meta http-equiv="X-UA-Compatible" description="IE=edge">
     <meta name="viewport" description="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Edit this Post!</title>
+    <title>Edit Post</title>
 </head>
 <body>
-    <br>
-    <label for="title">Title:</label>
-    
-    <input id="title" name="title" value="<?= $row['title']?>">
-    <label for="description">Description:</label>
-    <textarea id="description" name="description" rows="15" cols="50" ><?= $row['description']?></textarea>
-    
+    <h2>Edit Post</h2>
+
     <form method="post" action="post.php">
+        <label for="title">Title:</label>
+        <input id="title" name="title" value="<?= $row['title']?>">
+        <br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="15" cols="50" ><?= $row['description']?></textarea>
+        <br>
         <input type="hidden" name="townPostId" value="<?= $row['townPostId']?>">
         <label for="itemName">Item:</label>
         <select id="itemName" name="itemName">

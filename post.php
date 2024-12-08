@@ -11,10 +11,40 @@ require('connect.php');
 require('authenticate.php');
 
 $itemIdQuery = "SELECT `itemId`, `itemName` FROM `item`";
-$itemIdStatement = $db->prepare ($itemIdQuery);
+$itemIdStatement = $db->prepare($itemIdQuery);
 $itemIdStatement->execute();
 $items = $itemIdStatement->fetchAll(PDO::FETCH_ASSOC);
 
+$personIdQuery = "SELECT `personId`, `name` FROM `person`";
+$personIdStatement = $db->prepare($personIdQuery);
+$personIdStatement->execute();
+$people = $personIdStatement->fetchAll(PDO::FETCH_ASSOC);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $itemId = filter_input(INPUT_POST, 'itemId', FILTER_SANITIZE_NUMBER_INT);
+    $personId = filter_input(INPUT_POST, 'personId', FILTER_SANITIZE_NUMBER_INT);
+
+    if ($title && $content && $itemId) {
+        $query = "INSERT INTO townPost (personId, itemId, title, description, datePosted) VALUES (:personId, :itemId, :title, :description, NOW())";
+        $statement = $db->prepare($query);
+
+        $statement->bindValue(':title', $title);
+        $statement->bindValue(':description', $content);
+        $statement->bindValue(':itemId', $itemId, PDO::PARAM_INT);
+        $statement->bindValue(':personId', $personId, PDO::PARAM_INT);
+
+        if ($statement->execute()) {
+            header("Location: admin.php");
+            exit();
+        } else {
+            $error = "Error inserting the post.";
+        }
+    } else {
+        $error = "All fields are required.";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,21 +59,33 @@ $items = $itemIdStatement->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <h1>Pelican Town Bulletin Board</h1>
 <a href="index.php">Home</a>
-    <form method="post" action="post.php">
-        <label for="title">Title</label>
-        <input id="title" name="title">
-        <label for="content">Content</label>
-        <textarea id="content" name="content" rows="15" cols="50"></textarea>
-        <label for="itemId">Item</label>
-        <select id="itemId" name="itemId">
-            <option value="">Select Item</option>
-            <?php foreach ($items as $item): ?>
-                <option value="<?= htmlspecialchars($item['itemId']) ?>">
-                    <?= htmlspecialchars($item['itemName']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-        <input type="submit">
-    </form>
+<?php if (!empty($error)): ?>
+    <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+<?php endif; ?>
+<form method="post" action="post.php">
+    <label for="title">Title</label>
+    <input id="title" name="title" required>
+    <label for="content">Content</label>
+    <textarea id="content" name="content" rows="15" cols="50" required></textarea>
+    <label for="itemId">Item:</label>
+    <select id="itemId" name="itemId" required>
+        <option value="">Select Item:</option>
+        <?php foreach ($items as $item): ?>
+            <option value="<?= htmlspecialchars($item['itemId']) ?>">
+                <?= htmlspecialchars($item['itemName']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <label for="personId">Person:</label>
+    <select id="personId" name="personId" required>
+        <option value="">Select Name</option>
+        <?php foreach ($people as $person): ?>
+            <option value="<?= htmlspecialchars($person['personId']) ?>">
+                <?= htmlspecialchars($person['name']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <input type="submit" value="Create Post">
+</form>
 </body>
 </html>

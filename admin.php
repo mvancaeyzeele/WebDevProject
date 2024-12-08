@@ -9,16 +9,19 @@
 require('authenticate.php');
 require('connect.php');
 
-$townPostId = filter_input(INPUT_GET, 'townPostId', FILTER_SANITIZE_NUMBER_INT);
+$validSortColumns = ['datePosted', 'title', 'name']; 
+$sortBy = filter_input(INPUT_GET, 'sortBy', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+if (!in_array($sortBy, $validSortColumns)) {
+    $sortBy = 'datePosted';
+}
+
 $query = "SELECT townPost.*, person.name 
-        FROM townPost
-        INNER JOIN person ON townPost.personId = person.personId
-        ORDER BY townPost.datePosted DESC
-        LIMIT 5";
+          FROM townPost
+          JOIN person ON townPost.personId = person.personId
+          ORDER BY $sortBy ASC";
 $statement = $db->prepare($query);
 $statement->execute();
-// Stop errors from displaying
-ini_set('display_errors', 0); 
+
 
 ?>
 <!DOCTYPE html>
@@ -31,25 +34,29 @@ ini_set('display_errors', 0);
     <title>Pelican Town Bulletin Board</title>
 </head>
 <body>
-<?php include('header.php')?>
+<?php include('header.php'); ?>
 <br>
-    <h2>Page Administration</h2>
-    <a href="post.php">New Posting</a>
-    <div id="sort"> 
-        <form method="GET" action="admin.php">
-            <label for="sortBy">Sort by:</label>
-            <select name="sortBy" id="sortBy">
-                <option value="datePosted" <?= $sortBy === 'datePosted' ? 'selected' : '' ?>>Date Posted</option>
-            </select>
-        </form>
-    </div>
+<h2>Page Administration</h2>
+<a href="post.php">New Posting</a>
+<div id="sort"> 
+    <form method="GET" action="admin.php">
+        <label for="sortBy">Sort by:</label>
+        <select name="sortBy" id="sortBy" onchange="this.form.submit()">
+            <option value="datePosted" <?= $sortBy === 'datePosted' ? 'selected' : '' ?>>Date Posted</option>
+            <option value="title" <?= $sortBy === 'title' ? 'selected' : '' ?>>Title</option>
+            <option value="name" <?= $sortBy === 'name' ? 'selected' : '' ?>>Name</option>
+        </select>
+    </form>
+</div>
 
-    <?php while($row = $statement->fetch()):?>
-            <ul>
-            <li><a href="select.php?townPostId=<?php echo $row['townPostId']; ?>"><?= $row['title']; ?></a></li>
-            <li><?= $row['description']?></li>
-            <li><?= $row['name']?></li>
-            <li><a href="edit.php?townPostId=<?php echo $row['townPostId']; ?>"> edit</a></li>
-            </ul>
-        <?php endwhile ?>
+<?php while($row = $statement->fetch()): ?>
+    <ul>
+        <li><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></li>
+        <li><?= htmlspecialchars($row['description']) ?></li>
+        <li><?= htmlspecialchars($row['name']) ?></li>
+        <li><?= htmlspecialchars($row['datePosted']) ?></li>
+        <li><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></li>
+    </ul>
+<?php endwhile; ?>
 </body>
+</html>

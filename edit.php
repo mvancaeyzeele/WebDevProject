@@ -39,14 +39,14 @@ if(!$row) {
 if($_POST){
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $itemName = filter_input(INPUT_POST, 'itemName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $itemId = filter_input(INPUT_POST, 'itemName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    $query = "UPDATE townPost SET title = :title, description = :description, itemName = :itemName WHERE townPostId = :townPostId";
+    $query = "UPDATE townPost SET title = :title, description = :description, itemId = :itemId WHERE townPostId = :townPostId";
     $statement = $db->prepare($query);
 
     $statement->bindValue(':title', $title);
     $statement->bindValue(':description', $description);
-    $statement->bindValue(':itemName', $itemName);
+    $statement->bindValue(':itemId', $itemId);
     $statement->bindValue(':townPostId', $townPostId, type: PDO::PARAM_INT);
 
     if($statement->execute()){
@@ -69,7 +69,7 @@ if($_POST){
 <body>
     <h2>Edit Post</h2>
 
-    <form method="post" action="post.php">
+    <form method="post">
         <label for="title">Title:</label>
         <input id="title" name="title" value="<?= $row['title']?>">
         <br>

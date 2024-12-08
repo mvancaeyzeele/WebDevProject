@@ -8,7 +8,6 @@
 ****************/
 require('authenticate.php');
 require('connect.php');
-include("header.php");
 
 $townPostId = filter_input(INPUT_GET, 'townPostId', FILTER_SANITIZE_NUMBER_INT);
 $query = "SELECT townPost.*, person.name 
@@ -32,8 +31,19 @@ ini_set('display_errors', 0);
     <title>Pelican Town Bulletin Board</title>
 </head>
 <body>
+<?php include('header.php')?>
+<br>
     <h2>Page Administration</h2>
     <a href="post.php">New Posting</a>
+    <div id="sort"> 
+        <form method="GET" action="admin.php">
+            <label for="sortBy">Sort by:</label>
+            <select name="sortBy" id="sortBy">
+                <option value="datePosted" <?= $sortBy === 'datePosted' ? 'selected' : '' ?>>Date Posted</option>
+            </select>
+        </form>
+    </div>
+
     <?php while($row = $statement->fetch()):?>
             <ul>
             <li><a href="select.php?townPostId=<?php echo $row['townPostId']; ?>"><?= $row['title']; ?></a></li>

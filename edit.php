@@ -24,6 +24,11 @@ $itemIdStatement = $db->prepare ($itemIdQuery);
 $itemIdStatement->execute();
 $items = $itemIdStatement->fetchAll(PDO::FETCH_ASSOC);
 
+$categoryIdQuery = "SELECT `categoryId`, `category` FROM `category`";
+$categoryIdStatement = $db->prepare($categoryIdQuery);
+$categoryIdStatement->execute();
+$categories = $categoryIdStatement->fetchAll(PDO::FETCH_ASSOC);
+
 // Message displayed if no post found
 if (!$townPostId) {
     echo "Invalid or missing post ID.";
@@ -40,14 +45,16 @@ if($_POST){
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $itemId = filter_input(INPUT_POST, 'itemName', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $categoryId = filter_input(INPUT_POST, 'categoryId', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    $query = "UPDATE townPost SET title = :title, description = :description, itemId = :itemId WHERE townPostId = :townPostId";
+    $query = "UPDATE townPost SET title = :title, description = :description, itemId = :itemId, categoryId =:categoryId WHERE townPostId = :townPostId";
     $statement = $db->prepare($query);
 
     $statement->bindValue(':title', $title);
     $statement->bindValue(':description', $description);
-    $statement->bindValue(':itemId', $itemId);
+    $statement->bindValue(':itemId', $itemId, type: PDO::PARAM_INT);
     $statement->bindValue(':townPostId', $townPostId, type: PDO::PARAM_INT);
+    $statement->bindValue(':categoryId', $categoryId, type: PDO::PARAM_INT);
 
     if($statement->execute()){
         header(header: "Location: admin.php?townPostId=$townPostId");
@@ -85,6 +92,17 @@ if($_POST){
                     <?= ($item['itemId'] == $row['itemId']) ? 'selected' : '' ?>>
                     <?= htmlspecialchars($item['itemName']) ?>
                 </option>
+            <?php endforeach; ?>
+        </select>
+
+        <label for="categoryId">Category:</label>
+        <select id="categoryId" name="categoryId" required>
+            <option value="">Select Category</option>
+            <?php foreach ($categories as $category): ?>
+        <option value="<?= htmlspecialchars($category['categoryId']) ?>"
+            <?= ($category['categoryId'] == $row['categoryId']) ? 'selected' : '' ?>>
+            <?= htmlspecialchars($category['category']) ?>    
+        </option>
             <?php endforeach; ?>
         </select>
         <button type="submit" name="update">Update</button>

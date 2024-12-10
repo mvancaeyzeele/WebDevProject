@@ -33,13 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $categoryId = filter_input(INPUT_POST, 'categoryId', FILTER_SANITIZE_NUMBER_INT);
 
     if ($title && $content && $itemId) {
-        $query = "INSERT INTO townPost (personId, itemId, title, description, datePosted) VALUES (:personId, :itemId, :title, :description, NOW())";
+        $query = "INSERT INTO townPost (personId, itemId, title, description, datePosted, categoryId) VALUES (:personId, :itemId, :title, :description, NOW(), :categoryId)";
         $statement = $db->prepare($query);
 
         $statement->bindValue(':title', $title);
         $statement->bindValue(':description', $content);
         $statement->bindValue(':itemId', $itemId, PDO::PARAM_INT);
         $statement->bindValue(':personId', $personId, PDO::PARAM_INT);
+        $statement->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
 
         if ($statement->execute()) {
             header("Location: admin.php");
@@ -80,6 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </option>
         <?php endforeach; ?>
     </select>
+    
     <label for="personId">Person:</label>
     <select id="personId" name="personId" required>
         <option value="">Select Name</option>
@@ -89,15 +91,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </option>
         <?php endforeach; ?>
     </select>
+
     <label for="categoryId">Category:</label>
-        <select id="categoryId" name="categoryId" required>
+    <select id="categoryId" name="categoryId" required>
         <option value="">Select Category</option>
         <?php foreach ($categories as $category): ?>
-        <option value="<?= htmlspecialchars($category['categoryId']) ?>">
-            <?= htmlspecialchars($category['category']) ?>
-        </option>
-    <?php endforeach; ?>
-</select>
+            <option value="<?= htmlspecialchars($category['categoryId']) ?>">
+                <?= htmlspecialchars($category['category']) ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
     <input type="submit" value="Create Post">
 </form>
 </body>

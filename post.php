@@ -20,11 +20,17 @@ $personIdStatement = $db->prepare($personIdQuery);
 $personIdStatement->execute();
 $people = $personIdStatement->fetchAll(PDO::FETCH_ASSOC);
 
+$categoryIdQuery = "SELECT `categoryId`, `category` FROM `category`";
+$categoryIdStatement = $db->prepare($categoryIdQuery);
+$categoryIdStatement->execute();
+$categories = $categoryIdStatement->fetchAll(PDO::FETCH_ASSOC);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $itemId = filter_input(INPUT_POST, 'itemId', FILTER_SANITIZE_NUMBER_INT);
     $personId = filter_input(INPUT_POST, 'personId', FILTER_SANITIZE_NUMBER_INT);
+    $categoryId = filter_input(INPUT_POST, 'categoryId', FILTER_SANITIZE_NUMBER_INT);
 
     if ($title && $content && $itemId) {
         $query = "INSERT INTO townPost (personId, itemId, title, description, datePosted) VALUES (:personId, :itemId, :title, :description, NOW())";
@@ -57,8 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>New Post</title>
 </head>
 <body>
-<h1>Pelican Town Bulletin Board</h1>
-<a href="index.php">Home</a>
 <?php if (!empty($error)): ?>
     <p style="color: red;"><?= htmlspecialchars($error) ?></p>
 <?php endif; ?>
@@ -85,6 +89,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </option>
         <?php endforeach; ?>
     </select>
+    <label for="categoryId">Category:</label>
+        <select id="categoryId" name="categoryId" required>
+        <option value="">Select Category</option>
+        <?php foreach ($categories as $category): ?>
+        <option value="<?= htmlspecialchars($category['categoryId']) ?>">
+            <?= htmlspecialchars($category['category']) ?>
+        </option>
+    <?php endforeach; ?>
+</select>
     <input type="submit" value="Create Post">
 </form>
 </body>

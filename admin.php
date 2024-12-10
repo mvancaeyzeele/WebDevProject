@@ -38,6 +38,7 @@ $statement->execute();
 <br>
 <h2>Page Administration</h2>
 <a href="post.php">New Posting</a>
+<a href="categoryPost.php">New Category</a>
 <div id="sort"> 
     <form method="GET" action="admin.php">
         <label for="sortBy">Sort by:</label>

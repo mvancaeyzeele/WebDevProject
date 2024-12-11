@@ -9,16 +9,25 @@
 include("header.php");
 require('connect.php');
 
-$townPostId = filter_input(INPUT_GET, 'townPostId', FILTER_SANITIZE_NUMBER_INT);
+$categoryId = filter_input(INPUT_GET, 'sortBy', FILTER_SANITIZE_NUMBER_INT);
 $query = "SELECT townPost.*, person.name 
         FROM townPost
-        INNER JOIN person ON townPost.personId = person.personId
-        ORDER BY townPost.datePosted DESC
-        LIMIT 5";
+        INNER JOIN person ON townPost.personId = person.personId";
+if ($categoryId) {
+    $query .= " WHERE townPost.categoryId = $categoryId";
+}
+$query .= " ORDER BY townPost.datePosted DESC";
+
+
 $statement = $db->prepare($query);
 $statement->execute();
 // Stop errors from displaying
 ini_set('display_errors', 0); 
+
+$categoryIdQuery = "SELECT `categoryId`, `category` FROM `category`";
+$categoryIdStatement = $db->prepare($categoryIdQuery);
+$categoryIdStatement->execute();
+$categories = $categoryIdStatement->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 <!DOCTYPE html>
@@ -32,12 +41,26 @@ ini_set('display_errors', 0);
 </head>
 <body>
     <p>Welcome to the online Pelican Town Bulletin Board system. </p>
-    <?php while($row = $statement->fetch()):?>
-            <ul>
-            <li><a href="select.php?townPostId=<?php echo $row['townPostId']; ?>"><?= $row['title']; ?></a></li>
-            <li><?= $row['description']?></li>
-            <li><?= $row['name']?></li> 
-            </ul>
-        <?php endwhile ?>
+    <form method="GET" action="index.php">
+        <label for="sortBy">Sort by category:</label>
+        <select name="sortBy" id="sortBy" onchange="this.form.submit()">
+            <option value="">Select Category</option>
+            <?php foreach ($categories as $category): ?>
+                <option value="<?= htmlspecialchars($category['categoryId']) ?>">
+                    <?= htmlspecialchars($category['category']) ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </form>
+
+    <?php while($row = $statement->fetch()): ?>
+    <ul>
+        <li><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></li>
+        <li><?= htmlspecialchars($row['description']) ?></li>
+        <li><?= htmlspecialchars($row['name']) ?></li>
+        <li><?= htmlspecialchars($row['datePosted']) ?></li>
+        <li><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></li>
+    </ul>
+    <?php endwhile; ?>
 </body>
 </html>

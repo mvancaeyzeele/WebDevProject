@@ -37,7 +37,7 @@ if(isset($_FILES['uploaded_file']) && $_FILES['uploaded_file']['error'] === 0) {
                 $query = "UPDATE item SET image = :image WHERE itemId = :itemId";
                 $statement = $db->prepare($query);
                 $statement->bindValue(':itemId', $itemId, PDO::PARAM_INT);
-                $statement ->bindValue(':image', $targetFile);
+                $statement->bindValue(':image', $targetFile);
                 $statement->execute();
 
                 $output = "File Uploaded Successfully.";

@@ -1,7 +1,55 @@
 /*******w******** 
     
     Name: Morgan VanCaeyzeele
-    Date: December 10th, 2024
+    Date: December 12th, 2024
     Description: Final Project CSS page
 
 ****************/
+body {
+    background-image: url("css/stardewbackground.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+#header {
+    position: relative;
+    margin-top: 2em;
+    border: 6px solid transparent;
+    border-image: url("css/menu_border.png") 15 stretch;
+    background-color: rgba(209,248,255,0.67);
+    border-image-outset: 0;
+    border-image-repeat: stretch;
+    border-image-slice: 15;
+    border-image-source: url("css/menu_border.png");
+    border-image-width: 1;
+    padding-bottom: 15px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    width: 75%;
+    margin: 10px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+#headerImage {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 50px;
+}
+#headeradmin {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 40px;
+    height: 1em;
+  }
+#content {
+    background-color: rgba(209,248,255,0.67);
+    border-image-outset: 0;
+    width: 75%;
+    margin: 10px auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}

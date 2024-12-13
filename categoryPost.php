@@ -40,14 +40,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Create Category</title>
 </head>
 <body>
-    <?php if (!empty($error)): ?>
-        <p style="color: red;"><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
+    <div id="content">
+        <?php if (!empty($error)): ?>
+            <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
 
-    <form method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-        <label for="category">New Category</label>
-        <input type="text" id="category" name="category" required>
-        <button type="submit">Submit</button>
-    </form>
+        <form method="post" action="<?= htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+            <label for="category">New Category</label>
+            <input type="text" id="category" name="category" required>
+            <button type="submit">Submit</button>
+        </form>
+        <form method="post" action="admin.php">
+            <br>
+            <button type="submit">Back</button>
+        </form>
+    </div>
 </body>
 </html>

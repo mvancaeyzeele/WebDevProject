@@ -2,7 +2,7 @@
 /*******w******** 
     
     Name: Morgan VanCaeyzeele
-    Date: November 30th, 2024
+    Date: December 12th, 2024
     Description: Final Project index page
 
 ****************/
@@ -14,7 +14,7 @@ $query = "SELECT townPost.*, person.name
         FROM townPost
         INNER JOIN person ON townPost.personId = person.personId";
 if ($categoryId) {
-    $query .= " WHERE townPost.categoryId = :categoryId";
+    $query .= " WHERE townPost.categoryId = $categoryId";
 }
 $query .= " ORDER BY townPost.datePosted DESC";
 
@@ -40,27 +40,30 @@ $categories = $categoryIdStatement->fetchAll(PDO::FETCH_ASSOC);
     <title>Pelican Town Bulletin Board</title>
 </head>
 <body>
-    <p>Welcome to the online Pelican Town Bulletin Board system. </p>
-    <form method="GET" action="index.php">
-        <label for="sortBy">Sort by category:</label>
-        <select name="sortBy" id="sortBy" onchange="this.form.submit()">
-            <option value="">Select Category</option>
-            <?php foreach ($categories as $category): ?>
-                <option value="<?= htmlspecialchars($category['categoryId']) ?>">
-                    <?= htmlspecialchars($category['category']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </form>
+    <div id ="content">
+        <h2>Welcome to the online Pelican Town Bulletin Board system. </h2>
+        <form method="GET" action="index.php">
+            <label for="sortBy">Sort by category:</label>
+            <select name="sortBy" id="sortBy" onchange="this.form.submit()">
+                <option value="">Select Category</option>
+                <?php foreach ($categories as $category): ?>
+                    <option value="<?= htmlspecialchars($category['categoryId']) ?>">
+                        <?= htmlspecialchars($category['category']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </form>
+        
 
-    <?php while($row = $statement->fetch()): ?>
-    <ul>
-        <li><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></li>
-        <li><?= htmlspecialchars($row['description']) ?></li>
-        <li>Posted By: <?= htmlspecialchars($row['name']) ?></li>
-        <li>Date Posted: <?= htmlspecialchars($row['datePosted']) ?></li>
-        <li><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></li>
-    </ul>
-    <?php endwhile; ?>
+        <?php while($row = $statement->fetch()): ?>
+        <ul>
+            <li><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></li>
+            <li><?= htmlspecialchars($row['description']) ?></li>
+            <li>Posted By: <?= htmlspecialchars($row['name']) ?></li>
+            <li>Date Posted: <?= htmlspecialchars($row['datePosted']) ?></li>
+            <li><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></li>
+        </ul>
+        <?php endwhile; ?>
+    </div>
 </body>
 </html>

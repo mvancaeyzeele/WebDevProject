@@ -64,44 +64,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>New Post</title>
 </head>
 <body>
-<?php if (!empty($error)): ?>
-    <p style="color: red;"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
-<form method="post" action="post.php">
-    <label for="title">Title</label>
-    <input id="title" name="title" required>
-    <label for="content">Content</label>
-    <textarea id="content" name="content" rows="15" cols="50" required></textarea>
-    <label for="itemId">Item:</label>
-    <select id="itemId" name="itemId" required>
-        <option value="">Select Item:</option>
-        <?php foreach ($items as $item): ?>
-            <option value="<?= htmlspecialchars($item['itemId']) ?>">
-                <?= htmlspecialchars($item['itemName']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    
-    <label for="personId">Person:</label>
-    <select id="personId" name="personId" required>
-        <option value="">Select Name</option>
-        <?php foreach ($people as $person): ?>
-            <option value="<?= htmlspecialchars($person['personId']) ?>">
-                <?= htmlspecialchars($person['name']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
+    <div id="content">
+        <?php if (!empty($error)): ?>
+            <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
+        <form method="post" action="post.php">
+            <label for="title">Title</label>
+            <input id="title" name="title" required>
+            <label for="content">Content</label>
+            <textarea id="content" name="content" rows="15" cols="50" required></textarea>
+            <label for="itemId">Item:</label>
+            <select id="itemId" name="itemId" required>
+                <option value="">Select Item:</option>
+                <?php foreach ($items as $item): ?>
+                    <option value="<?= htmlspecialchars($item['itemId']) ?>">
+                        <?= htmlspecialchars($item['itemName']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            
+            <label for="personId">Person:</label>
+            <select id="personId" name="personId" required>
+                <option value="">Select Name</option>
+                <?php foreach ($people as $person): ?>
+                    <option value="<?= htmlspecialchars($person['personId']) ?>">
+                        <?= htmlspecialchars($person['name']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
 
-    <label for="categoryId">Category:</label>
-    <select id="categoryId" name="categoryId" required>
-        <option value="">Select Category</option>
-        <?php foreach ($categories as $category): ?>
-            <option value="<?= htmlspecialchars($category['categoryId']) ?>">
-                <?= htmlspecialchars($category['category']) ?>
-            </option>
-        <?php endforeach; ?>
-    </select>
-    <input type="submit" value="Create Post">
-</form>
+            <label for="categoryId">Category:</label>
+            <select id="categoryId" name="categoryId" required>
+                <option value="">Select Category</option>
+                <?php foreach ($categories as $category): ?>
+                    <option value="<?= htmlspecialchars($category['categoryId']) ?>">
+                        <?= htmlspecialchars($category['category']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <br>
+            <br>
+            <input type="submit" value="Create Post">
+        </form>
+        <form method="post" action="admin.php">
+            <br>
+            <button type="submit">Back</button>
+        </form>
+    </div>
 </body>
 </html>

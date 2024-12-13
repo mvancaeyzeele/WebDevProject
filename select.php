@@ -32,18 +32,20 @@ $row = $statement->fetch();
     <title>Posting</title>
 </head>
 <body>
-    <?php if($row): ?>
-        <br>
-        <h2><?php echo $row['title']?></h2>
-        <br>
-        <?php echo $row['description'] ?>
-    <?php endif ?>
-    <?php if ($row['image']): ?>
-        <p class="img"><img src="<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['itemName']); ?>"></p>
-    <?php endif; ?>
-    <form method="post" action="index.php">
-        <br>
-        <button type="submit">Back</button>
-    </form>
+    <div id ="content">
+        <?php if($row): ?>
+            <br>
+            <h2><?php echo $row['title']?></h2>
+            <br>
+            <?php echo $row['description'] ?>
+        <?php endif ?>
+        <?php if ($row['image']): ?>
+            <p class="img"><img src="<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['itemName']); ?>"></p>
+        <?php endif; ?>
+        <form method="post" action="index.php">
+            <br>
+            <button type="submit">Back</button>
+        </form>
+    </div>
 </body>
 </html>

@@ -65,22 +65,28 @@ if(isset($_FILES['uploaded_file']) && $_FILES['uploaded_file']['error'] === 0) {
     <title>Upload an image</title>
 </head>
 <body>
-    <h2>Upload an Image for an Item</h2>
-    <form method="post" enctype="multipart/form-data">
-        <label for="itemId">Item:</label>
-        <select id="itemId" name="itemId" required>
-            <option value="">Select Item</option>
-            <?php foreach ($items as $item): ?>
-                <option value="<?= htmlspecialchars($item['itemId']) ?>">
-                    <?= htmlspecialchars($item['itemName']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-        <br>
-        <label for="uploaded_file"><strong>Choose Image File</strong></label>
-        <input type="file" name="uploaded_file">
-        <br>
-        <input type="submit" name="submit" value="Upload Image">
-        <p><?= $output ?></p>
-    </form>
+    <div id="content">
+        <h2>Upload an Image for an Item</h2>
+        <form method="post" enctype="multipart/form-data">
+            <label for="itemId">Item:</label>
+            <select id="itemId" name="itemId" required>
+                <option value="">Select Item</option>
+                <?php foreach ($items as $item): ?>
+                    <option value="<?= htmlspecialchars($item['itemId']) ?>">
+                        <?= htmlspecialchars($item['itemName']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <br>
+            <label for="uploaded_file"><strong>Choose Image File</strong></label>
+            <input type="file" name="uploaded_file">
+            <br>
+            <input type="submit" name="submit" value="Upload Image">
+            <p><?= $output ?></p>
+        </form>
+        <form method="post" action="admin.php">
+            <br>
+            <button type="submit">Back</button>
+        </form>
+    </div>
 </body>

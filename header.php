@@ -19,16 +19,13 @@
 <div id="outer">
     <div id="header">
         <div id="headercontent">
-            <h1>Pelican Town Bulletin Board</h1>
+            <h1><a href="index.php">Pelican Town Bulletin Board</a></h1>
         </div>
         <div id="headeradmin">
             <a href="admin.php">admin</a>
         </div>
+        <br>
+        <div id="menu">
     </div>
-    <div id="menu">
-        <li>
-        <a href="index.php">Home</a>
-        
-        </li>
     </div>
 </div>

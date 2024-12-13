@@ -36,11 +36,12 @@ $statement->execute();
 <body>
 <?php include('header.php'); ?>
 <br>
-<h2>Page Administration</h2>
-<a href="post.php">New Posting</a>
-<a href="categoryPost.php">New Category</a>
-<a href="imageUpload.php">Upload Image</a>
-<div id="sort"> 
+<div id="content">
+    <h2>Page Administration</h2>
+    <a href="post.php">New Posting</a>
+    <a href="categoryPost.php">New Category</a>
+    <a href="imageUpload.php">Upload Image</a>
+
     <form method="GET" action="admin.php">
         <label for="sortBy">Sort by:</label>
         <select name="sortBy" id="sortBy" onchange="this.form.submit()">
@@ -49,16 +50,17 @@ $statement->execute();
             <option value="name" <?= $sortBy === 'name' ? 'selected' : '' ?>>Name</option>
         </select>
     </form>
-</div>
 
-<?php while($row = $statement->fetch()): ?>
-    <ul>
-        <li><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></li>
-        <li><?= htmlspecialchars($row['description']) ?></li>
-        <li><?= htmlspecialchars($row['name']) ?></li>
-        <li><?= htmlspecialchars($row['datePosted']) ?></li>
-        <li><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></li>
-    </ul>
-<?php endwhile; ?>
+
+    <?php while($row = $statement->fetch()): ?>
+        <ul>
+            <li><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></li>
+            <li><?= htmlspecialchars($row['description']) ?></li>
+            <li><?= htmlspecialchars($row['name']) ?></li>
+            <li><?= htmlspecialchars($row['datePosted']) ?></li>
+            <li><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></li>
+        </ul>
+    <?php endwhile; ?>
+</div>
 </body>
 </html>

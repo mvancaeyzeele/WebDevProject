@@ -61,7 +61,6 @@ $categories = $categoryIdStatement->fetchAll(PDO::FETCH_ASSOC);
             <ul><?= $row['description'] ?></ul>
             <ul>Posted By: <?= htmlspecialchars($row['name']) ?></ul>
             <ul>Date Posted: <?= htmlspecialchars($row['datePosted']) ?></ul>
-            <ul><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></ul>
         </ul>
         <?php endwhile; ?>
     </div>

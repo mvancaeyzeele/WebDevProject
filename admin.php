@@ -56,7 +56,7 @@ $statement->execute();
     <?php while($row = $statement->fetch()): ?>
         <ul>
             <ul><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></ul>
-            <ul><?= htmlspecialchars($row['description']) ?></ul>
+            <ul><?= $row['description'] ?></ul>
             <ul><?= htmlspecialchars($row['name']) ?></ul>
             <ul><?= htmlspecialchars($row['datePosted']) ?></ul>
             <ul><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></ul>

@@ -6,7 +6,6 @@
     Description: Image Upload Page
 
 ****************/
-session_start();
 require('connect.php');
 include('header.php');
 

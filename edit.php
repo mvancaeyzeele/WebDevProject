@@ -10,8 +10,6 @@ include("header.php");
 require('connect.php');
 require('authenticate.php');
 
-session_start();
-
 $townPostId = filter_input(INPUT_GET, 'townPostId', FILTER_SANITIZE_NUMBER_INT);
 $query = "SELECT * FROM townPost WHERE townPostId = :townPostId LIMIT 1";
 $statement = $db->prepare($query);

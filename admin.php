@@ -41,7 +41,8 @@ $statement->execute();
     <a href="post.php">New Posting</a>
     <a href="categoryPost.php">New Category</a>
     <a href="imageUpload.php">Upload Image</a>
-
+    <br>
+    <br>
     <form method="GET" action="admin.php">
         <label for="sortBy">Sort by:</label>
         <select name="sortBy" id="sortBy" onchange="this.form.submit()">
@@ -54,11 +55,11 @@ $statement->execute();
 
     <?php while($row = $statement->fetch()): ?>
         <ul>
-            <li><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></li>
-            <li><?= htmlspecialchars($row['description']) ?></li>
-            <li><?= htmlspecialchars($row['name']) ?></li>
-            <li><?= htmlspecialchars($row['datePosted']) ?></li>
-            <li><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></li>
+            <ul><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></ul>
+            <ul><?= htmlspecialchars($row['description']) ?></ul>
+            <ul><?= htmlspecialchars($row['name']) ?></ul>
+            <ul><?= htmlspecialchars($row['datePosted']) ?></ul>
+            <ul><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></ul>
         </ul>
     <?php endwhile; ?>
 </div>

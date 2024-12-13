@@ -13,6 +13,7 @@ $townPostId = filter_input(INPUT_GET, 'townPostId', FILTER_SANITIZE_NUMBER_INT);
 $query = "SELECT townPost.*, item.*
             FROM townPost 
             LEFT JOIN item ON townPost.itemId = item.itemId
+            LEFT JOIN person ON townPost.personId = person.personId
             WHERE townPost.townPostId = :townPostId
             LIMIT 1";
 $statement = $db->prepare($query);
@@ -35,9 +36,11 @@ $row = $statement->fetch();
     <div id ="content">
         <?php if($row): ?>
             <br>
-            <h2><?php echo $row['title']?></h2>
+            <h2><?= $row['title']?></h2>
             <br>
-            <?php echo $row['description'] ?>
+            <?= $row['description'] ?>
+            <br>
+            <?= "Item needed: " . $row['itemName']?>
         <?php endif ?>
         <?php if ($row['image']): ?>
             <p class="img"><img src="<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['itemName']); ?>"></p>

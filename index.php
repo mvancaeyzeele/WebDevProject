@@ -36,7 +36,7 @@ $categories = $categoryIdStatement->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
+    <ulnk rel="stylesheet" href="main.css">
     <title>Pelican Town Bulletin Board</title>
 </head>
 <body>
@@ -57,11 +57,11 @@ $categories = $categoryIdStatement->fetchAll(PDO::FETCH_ASSOC);
 
         <?php while($row = $statement->fetch()): ?>
         <ul>
-            <li><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></li>
-            <li><?= htmlspecialchars($row['description']) ?></li>
-            <li>Posted By: <?= htmlspecialchars($row['name']) ?></li>
-            <li>Date Posted: <?= htmlspecialchars($row['datePosted']) ?></li>
-            <li><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></li>
+            <ul><a href="select.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>"><?= htmlspecialchars($row['title']) ?></a></ul>
+            <ul><?= htmlspecialchars($row['description']) ?></ul>
+            <ul>Posted By: <?= htmlspecialchars($row['name']) ?></ul>
+            <ul>Date Posted: <?= htmlspecialchars($row['datePosted']) ?></ul>
+            <ul><a href="edit.php?townPostId=<?= htmlspecialchars($row['townPostId']) ?>">Edit</a></ul>
         </ul>
         <?php endwhile; ?>
     </div>

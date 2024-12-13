@@ -74,42 +74,50 @@ if($_POST){
     <title>Edit Post</title>
 </head>
 <body>
-    <h2>Edit Post</h2>
-
-    <form method="post">
-        <label for="title">Title:</label>
-        <input id="title" name="title" value="<?= $row['title']?>">
-        <br>
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="15" cols="50" ><?= $row['description']?></textarea>
-        <br>
-        <input type="hidden" name="townPostId" value="<?= $row['townPostId']?>">
-        <label for="itemName">Item:</label>
-        <select id="itemName" name="itemName">
-            <option value="">Select Item</option>
-            <?php foreach ($items as $item): ?>
-                <option value="<?= htmlspecialchars($item['itemId']) ?>"
-                    <?= ($item['itemId'] == $row['itemId']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($item['itemName']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-
-        <label for="categoryId">Category:</label>
-        <select id="categoryId" name="categoryId" required>
-            <option value="">Select Category</option>
-            <?php foreach ($categories as $category): ?>
-        <option value="<?= htmlspecialchars($category['categoryId']) ?>"
-            <?= ($category['categoryId'] == $row['categoryId']) ? 'selected' : '' ?>>
-            <?= htmlspecialchars($category['category']) ?>    
-        </option>
-            <?php endforeach; ?>
-        </select>
-        <button type="submit" name="update">Update</button>
-    </form>
-    <form method="post" action="delete.php?=<?php echo $townPostId ?>">
+    <div id="content">
+        <h2>Edit Post</h2>
+        <form method="post">
+            <label for="title">Title:</label>
+            <input id="title" name="title" value="<?= $row['title']?>">
+            <br>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="15" cols="50" ><?= $row['description']?></textarea>
+            <br>
             <input type="hidden" name="townPostId" value="<?= $row['townPostId']?>">
-            <button type="submit" name="delete">Delete</button>
-    </form>
+            <label for="itemName">Item:</label>
+            <select id="itemName" name="itemName">
+                <option value="">Select Item</option>
+                <?php foreach ($items as $item): ?>
+                    <option value="<?= htmlspecialchars($item['itemId']) ?>"
+                        <?= ($item['itemId'] == $row['itemId']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($item['itemName']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+            <label for="categoryId">Category:</label>
+            <select id="categoryId" name="categoryId" required>
+                <option value="">Select Category</option>
+                <?php foreach ($categories as $category): ?>
+            <option value="<?= htmlspecialchars($category['categoryId']) ?>"
+                <?= ($category['categoryId'] == $row['categoryId']) ? 'selected' : '' ?>>
+                <?= htmlspecialchars($category['category']) ?>    
+            </option>
+                <?php endforeach; ?>
+            </select>
+            <br>
+            <br>
+            <button type="submit" name="update">Update</button>
+        </form>
+        <br>
+        <form method="post" action="delete.php?=<?php echo $townPostId ?>">
+                <input type="hidden" name="townPostId" value="<?= $row['townPostId']?>">
+                <button type="submit" name="delete">Delete</button>
+        </form>
+        <form method="post" action="admin.php">
+            <br>
+            <button type="submit">Back</button>
+        </form>
+    </div>
 </body>
 </html>
